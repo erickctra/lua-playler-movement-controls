@@ -3,6 +3,9 @@ function love.load()
     player.x = 400
     player.y = 200
     player.speed = 6
+    player.sprite = love.graphics.newImage('sprites/parrot.png')
+
+    background = love.graphics.newImage('sprites/background.png')
 end
 
 function love.update(dt)
@@ -24,6 +27,7 @@ function love.update(dt)
 end
 
 function love.draw()
-    love.graphics.circle("fill", player.x, player.y, 40)
+    love.graphics.draw(background, 0, 0)
+    love.graphics.draw(player.sprite, player.x, player.y)
     love.graphics.print("Current FPS: "..tostring(love.timer.getFPS( )), 10, 10)
 end
