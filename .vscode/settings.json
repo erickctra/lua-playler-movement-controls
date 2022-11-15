@@ -2,9 +2,5 @@
     "Lua.workspace.library": [
         "${3rd}/love2d/library"
     ],
-    "Lua.runtime.version": "LuaJIT",
-    "Lua.diagnostics.globals": [
-        "player",
-        "background"
-    ]
+    "Lua.runtime.version": "LuaJIT"
 }

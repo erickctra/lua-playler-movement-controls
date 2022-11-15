@@ -2,6 +2,9 @@ function love.load()
     local anim8 = require 'libraries/anim8'
     love.graphics.setDefaultFilter("nearest", "nearest")
 
+    sti = require 'libraries.sti'
+    gameMap = sti('maps/testMap.lua')
+
     player = {}
     player.x = 400
     player.y = 200
@@ -56,7 +59,7 @@ function love.update(dt)
 end
 
 function love.draw()
-    love.graphics.draw(background, 0, 0)
-    player.anim:draw(player.spriteSheet, player.x, player.y, nil, 10)
+    gameMap:draw()
+    player.anim:draw(player.spriteSheet, player.x, player.y, nil, 6)
     love.graphics.print("Current FPS: "..tostring(love.timer.getFPS( )), 10, 10)
 end
