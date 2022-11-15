@@ -1,5 +1,8 @@
 function love.load()
-    local anim8 = require 'libraries/anim8'
+    camera = require 'libraries/camera'
+    cam = camera()
+
+    anim8 = require 'libraries/anim8'
     love.graphics.setDefaultFilter("nearest", "nearest")
 
     sti = require 'libraries.sti'
@@ -8,7 +11,7 @@ function love.load()
     player = {}
     player.x = 400
     player.y = 200
-    player.speed = 6
+    player.speed = 5
     player.sprite = love.graphics.newImage('sprites/parrot.png')
     player.spriteSheet = love.graphics.newImage('sprites/player-sheet.png')
     player.grid = anim8.newGrid( 12, 18, player.spriteSheet:getWidth(), player.spriteSheet:getHeight() )
@@ -56,10 +59,39 @@ function love.update(dt)
     end
 
     player.anim:update(dt)
+
+    cam:lookAt(player.x, player.y)
+
+    local w = love.graphics.getWidth()
+    local h = love.graphics.getHeight()
+
+    if cam.x < w/2 then
+        cam.x = w/2
+    end
+
+    if cam.y < h/2 then
+        cam.y = h/2
+    end
+
+    local mapW = gameMap.width * gameMap.tilewidth
+    local mapH = gameMap.height * gameMap.tileheight
+
+    if cam.x > (mapW - w/2) then
+        cam.x = (mapW - w/2)
+    end
+
+    if cam.y > (mapW - h/2) then
+        cam.y = (mapW - h/2)
+    end
+
+
 end
 
 function love.draw()
-    gameMap:draw()
-    player.anim:draw(player.spriteSheet, player.x, player.y, nil, 6)
+    cam:attach()
+        gameMap:drawLayer(gameMap.layers["ground"])
+        gameMap:drawLayer(gameMap.layers["trees"])
+        player.anim:draw(player.spriteSheet, player.x, player.y, nil, 6, nil, 6, 9)
+    cam:detach()
     love.graphics.print("Current FPS: "..tostring(love.timer.getFPS( )), 10, 10)
 end
